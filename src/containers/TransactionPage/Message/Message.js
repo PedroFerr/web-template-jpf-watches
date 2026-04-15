@@ -144,7 +144,7 @@ const FileAttachment = props => {
  * @returns {JSX.Element} The Message component
  */
 export const Message = props => {
-  const { message, formattedDate, transaction, intl, downloadFile } = props;
+  const { message, formattedDate, transaction, intl, allowFiles, downloadFile } = props;
 
   const content = getMessageContent(message, transaction, intl);
 
@@ -165,14 +165,16 @@ export const Message = props => {
           {content}
           {publicFiles.length > 0 ? (
             <div className={css.fileAttachmentsContainer}>
-              {publicFiles.map(f => (
-                <FileAttachment
-                  fileAttachment={f}
-                  key={f.id.uuid}
-                  downloadFile={downloadFile}
-                  intl={intl}
-                />
-              ))}
+              {allowFiles
+                ? publicFiles.map(f => (
+                    <FileAttachment
+                      fileAttachment={f}
+                      key={f.id.uuid}
+                      downloadFile={downloadFile}
+                      intl={intl}
+                    />
+                  ))
+                : null}
             </div>
           ) : null}
         </div>
@@ -190,7 +192,7 @@ export const Message = props => {
  * @returns {JSX.Element} The OwnMessage component
  */
 export const OwnMessage = props => {
-  const { message, formattedDate, transaction, intl, downloadFile } = props;
+  const { message, formattedDate, transaction, intl, allowFiles, downloadFile } = props;
 
   const hasPendingFiles = messageHasPendingFiles(message);
   const hasFailedFiles = messageHasFailedFiles(message);
@@ -216,14 +218,16 @@ export const OwnMessage = props => {
           {content}
           {publicFiles.length > 0 ? (
             <div className={css.fileAttachmentsContainer}>
-              {publicFiles.map(f => (
-                <FileAttachment
-                  fileAttachment={f}
-                  key={f.id.uuid}
-                  downloadFile={downloadFile}
-                  intl={intl}
-                />
-              ))}
+              {allowFiles
+                ? publicFiles.map(f => (
+                    <FileAttachment
+                      fileAttachment={f}
+                      key={f.id.uuid}
+                      downloadFile={downloadFile}
+                      intl={intl}
+                    />
+                  ))
+                : null}
             </div>
           ) : null}
         </div>
